@@ -18,7 +18,9 @@ def read_private_keys(filename):
     with open(filename, 'r') as file:
         private_keys = file.readlines()
     return [key.strip() for key in private_keys]
-
+# Функция для генерации случайного лимита газа
+def get_random_gas_limit(min_gas, max_gas):
+    return random.randint(min_gas, max_gas)
 # Приватные ключи аккаунтов
 private_keys = read_private_keys('private_keys.txt')
 
@@ -41,7 +43,7 @@ for private_key in private_keys:
     nonce = w3.eth.get_transaction_count(account.address)
     tx = contract.functions.checkIn().build_transaction({
         'chainId': 81457,  # Идентификатор сети Ethereum
-        'gas': 65336,  # Лимит газа
+        'gas': get_random_gas_limit(62000, 75000),  # Лимит газа
         'gasPrice': w3.eth.gas_price,  # Цена газа
         'nonce': nonce,  # Нонс
     })
